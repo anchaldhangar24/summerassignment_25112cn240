@@ -2,14 +2,13 @@
 
 int main()
 {
-    int x, n;
+    int x, n, i;
     long long result = 1;
-    int i;
 
-    printf("Enter the value of x: ");
+    printf("Enter value of x: ");
     scanf("%d", &x);
 
-    printf("Enter the value of n: ");
+    printf("Enter value of n: ");
     scanf("%d", &n);
 
     for(i = 1; i <= n; i++)
@@ -17,7 +16,7 @@ int main()
         result = result * x;
     }
 
-    printf("%d raised to the power %d = %lld\n", x, n, result);
+    printf("%d^%d = %lld\n", x, n, result);
 
     return 0;
 }

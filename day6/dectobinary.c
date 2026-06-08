@@ -1,19 +1,19 @@
 #include <stdio.h>
 
 int main() {
-    int n, binary[32], i = 0;
+    int num, binary[32], i = 0;
 
     printf("Enter a decimal number: ");
-    scanf("%d", &n);
+    scanf("%d", &num);
 
-    if (n == 0) {
+    if (num == 0) {
         printf("Binary = 0");
         return 0;
     }
 
-    while (n > 0) {
-        binary[i] = n % 2;
-        n = n / 2;
+    while (num > 0) {
+        binary[i] = num % 2;
+        num = num / 2;
         i++;
     }
 
