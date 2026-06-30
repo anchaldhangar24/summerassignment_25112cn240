@@ -7,6 +7,7 @@ char candidate[MAX][50];
 int votes[MAX];
 int totalCandidates;
 
+
 // Function to add candidates
 void addCandidates()
 {
