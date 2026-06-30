@@ -1,125 +1,106 @@
 #include <stdio.h>
 #include <string.h>
 
-#define SIZE 10
+#define MAX 10
 
-char seats[SIZE][20];
+char candidate[MAX][50];
+int votes[MAX];
+int totalCandidates;
 
-// Function to initialize seats
-void initializeSeats()
-{
-    int i;
-    for(i = 0; i < SIZE; i++)
-    {
-        strcpy(seats[i], "Empty");
-    }
-}
-
-// Function to display seat status
-void displaySeats()
+// Function to add candidates
+void addCandidates()
 {
     int i;
 
-    printf("\n------ Flight Seating Status ------\n");
+    printf("Enter number of candidates: ");
+    scanf("%d", &totalCandidates);
 
-    for(i = 0; i < SIZE; i++)
+    for(i = 0; i < totalCandidates; i++)
     {
-        printf("Seat %d : %s\n", i + 1, seats[i]);
+        printf("Enter Candidate %d Name: ", i + 1);
+        scanf("%s", candidate[i]);
+        votes[i] = 0;
     }
 }
 
-// Function to reserve seat
-void reserveSeat()
+// Function to display candidates
+void displayCandidates()
 {
-    int seatNo;
-    char name[20];
+    int i;
 
-    printf("Enter Seat Number (1-10): ");
-    scanf("%d", &seatNo);
-
-    if(seatNo < 1 || seatNo > SIZE)
+    printf("\n------ Candidate List ------\n");
+    for(i = 0; i < totalCandidates; i++)
     {
-        printf("Invalid Seat Number!\n");
-        return;
+        printf("%d. %s\n", i + 1, candidate[i]);
     }
-
-    if(strcmp(seats[seatNo - 1], "Empty") != 0)
-    {
-        printf("Seat Already Reserved!\n");
-        return;
-    }
-
-    printf("Enter Passenger Name: ");
-    scanf("%s", name);
-
-    strcpy(seats[seatNo - 1], name);
-
-    printf("Seat Reserved Successfully!\n");
 }
 
-// Function to cancel reservation
-void cancelReservation()
+// Function to cast vote
+void castVote()
 {
-    int seatNo;
+    int choice;
 
-    printf("Enter Seat Number to Cancel: ");
-    scanf("%d", &seatNo);
+    displayCandidates();
 
-    if(seatNo < 1 || seatNo > SIZE)
+    printf("Enter Candidate Number to Vote: ");
+    scanf("%d", &choice);
+
+    if(choice >= 1 && choice <= totalCandidates)
     {
-        printf("Invalid Seat Number!\n");
-        return;
+        votes[choice - 1]++;
+        printf("Vote Cast Successfully!\n");
     }
-
-    if(strcmp(seats[seatNo - 1], "Empty") == 0)
+    else
     {
-        printf("Seat is Already Empty!\n");
-        return;
+        printf("Invalid Candidate Number!\n");
     }
-
-    strcpy(seats[seatNo - 1], "Empty");
-
-    printf("Reservation Cancelled Successfully!\n");
 }
 
-// Function to search passenger
-void searchPassenger()
+// Function to display results
+void displayResults()
 {
-    char name[20];
-    int i, found = 0;
+    int i;
 
-    printf("Enter Passenger Name: ");
-    scanf("%s", name);
+    printf("\n------ Voting Results ------\n");
 
-    for(i = 0; i < SIZE; i++)
+    for(i = 0; i < totalCandidates; i++)
     {
-        if(strcmp(seats[i], name) == 0)
+        printf("%s : %d Votes\n", candidate[i], votes[i]);
+    }
+}
+
+// Function to declare winner
+void declareWinner()
+{
+    int i, max = votes[0], winner = 0;
+
+    for(i = 1; i < totalCandidates; i++)
+    {
+        if(votes[i] > max)
         {
-            printf("%s is sitting on Seat %d\n", name, i + 1);
-            found = 1;
-            break;
+            max = votes[i];
+            winner = i;
         }
     }
 
-    if(found == 0)
-    {
-        printf("Passenger Not Found!\n");
-    }
+    printf("\nWinner is: %s\n", candidate[winner]);
+    printf("Total Votes: %d\n", max);
 }
 
+// Main Function
 int main()
 {
     int choice;
 
-    initializeSeats();
+    addCandidates();
 
     do
     {
-        printf("\n===== Flight Seat Reservation System =====\n");
-        printf("1. Display Seats\n");
-        printf("2. Reserve Seat\n");
-        printf("3. Cancel Reservation\n");
-        printf("4. Search Passenger\n");
+        printf("\n========== ONLINE VOTING SYSTEM ==========\n");
+        printf("1. Display Candidates\n");
+        printf("2. Cast Vote\n");
+        printf("3. Display Results\n");
+        printf("4. Declare Winner\n");
         printf("5. Exit\n");
 
         printf("Enter Your Choice: ");
@@ -128,23 +109,24 @@ int main()
         switch(choice)
         {
             case 1:
-                displaySeats();
+                displayCandidates();
                 break;
 
             case 2:
-                reserveSeat();
+                castVote();
                 break;
 
             case 3:
-                cancelReservation();
+                displayResults();
                 break;
 
             case 4:
-                searchPassenger();
+                displayResults();
+                declareWinner();
                 break;
 
             case 5:
-                printf("Thank You!\n");
+                printf("Thank You for Using Online Voting System.\n");
                 break;
 
             default:
